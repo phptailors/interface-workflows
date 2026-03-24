@@ -1,0 +1,46 @@
+---
+name: Psalm
+
+on:
+  workflow_call:
+
+jobs:
+  psalm:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version:
+          - "8.0"
+          - "8.1"
+          - "8.2"
+          - "8.3"
+          - "8.4"
+          - "8.5"
+
+    name: PHP-${{ matrix.php-version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          coverage: none
+
+      - run: composer --version
+
+      - name: Update dependencies with composer
+        run: composer update --no-interaction --ansi --no-progress
+
+      - name: Install psalm with composer
+        run: composer bin psalm update --no-interaction --ansi --no-progress
+
+      - name: Run vimeo/psalm on packages
+        run: |
+          if [[ -f ".psalm/baseline-php${{ matrix.php-version }}.xml" ]]; then
+            vendor-bin/psalm/vendor/bin/psalm --no-progress --php-version="${{ matrix.php-version }}" --shepherd --show-info=true --stats --use-baseline=".psalm/baseline-php${{ matrix.php-version }}.xml";
+          else
+            vendor-bin/psalm/vendor/bin/psalm --no-progress --php-version="${{ matrix.php-version }}" --shepherd --show-info=true --stats;
+          fi

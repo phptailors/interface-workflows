@@ -1,0 +1,32 @@
+---
+name: BC Check
+
+on:
+  workflow_call:
+
+jobs:
+  bc_check:
+    name: BC Check
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.5"
+          coverage: none
+
+      - name: Update dependencies with composer
+        run: composer update --no-interaction --ansi --no-progress
+
+      - name: Install backward-compatibility-check with composer
+        run: composer bin backward-compatibility-check update --no-interaction --ansi --no-progress
+
+      - name: Check for BC breaks
+        run: vendor-bin/backward-compatibility-check/vendor/bin/roave-backward-compatibility-check
