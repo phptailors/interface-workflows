@@ -31,4 +31,9 @@ jobs:
         run: composer bin backward-compatibility-check update --no-interaction --ansi --no-progress
 
       - name: Check for BC breaks
-        run: vendor/bin/phptailors-workflows run:backward-compatibility-check
+
+        - if: ${{ github.event_name == 'workflow_call' }}
+          run: vendor/bin/phptailors-workflows run:backward-compatibility-check
+
+        - if: ${{ github.event_name != 'workflow_call' }}
+          run: php bin/phptailors-workflows run:backward-compatibility-check

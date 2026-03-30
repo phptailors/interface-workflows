@@ -53,14 +53,6 @@
             "bamarni/composer-bin-plugin": true
         }
     },
-    "scripts": {
-        "post-install-cmd": [
-            "php -r 'copy(\"bin/phptailors-workflows\", \"vendor/bin/phptailors-workflows\");'"
-        ],
-        "post-update-cmd": [
-            "php -r 'copy(\"bin/phptailors-workflows\", \"vendor/bin/phptailors-workflows\");'"
-        ]
-    },
     "minimum-stability": "stable",
     "prefer-stable": true
 }
