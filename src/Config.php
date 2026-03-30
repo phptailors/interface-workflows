@@ -46,7 +46,7 @@ final class Config
         'psalm' => [
             'bin-name'            => 'psalm',
             'composer-bin-subdir' => 'psalm',
-            'options'             => ['--no-progress', '--php-version='.(PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION), '--shepherd', '--show-info=true', '--stats'],
+            'options'             => ['--no-cache', '--no-progress', '--php-version='.(PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION), '--shepherd', '--show-info=true', '--stats'],
         ],
         'rector' => [
             'bin-name'            => 'rector',
