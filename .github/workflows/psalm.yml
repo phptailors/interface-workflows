@@ -39,10 +39,10 @@ jobs:
       - name: Install psalm with composer
         run: composer bin psalm update --no-interaction --ansi --no-progress
 
-      - name: Run vimeo/psalm on packages
-        run: |
-          if [[ -f ".psalm/baseline-php${{ matrix.php-version }}.xml" ]]; then
-            vendor-bin/psalm/vendor/bin/psalm --no-progress --php-version="${{ matrix.php-version }}" --shepherd --show-info=true --stats --use-baseline=".psalm/baseline-php${{ matrix.php-version }}.xml";
-          else
-            vendor-bin/psalm/vendor/bin/psalm --no-progress --php-version="${{ matrix.php-version }}" --shepherd --show-info=true --stats;
-          fi
+      - if: ${{ github.event_name == 'workflow_call' }}
+        name: Run vimeo/psalm
+        run: vendor/bin/phptailors-workflows run:psalm
+
+      - if: ${{ github.event_name != 'workflow_call' }}
+        name: Run vimeo/psalm
+        run: php bin/phptailors-workflows run:psalm

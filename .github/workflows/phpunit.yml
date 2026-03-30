@@ -47,5 +47,10 @@ jobs:
 
       - run: composer bin phpunit update --no-interaction --no-progress --ansi
 
-      - name: Run PHPUnit
+      - if: ${{ github.event_name == 'workflow_call' }}
+        name: Run PHPUnit
         run: vendor/bin/phptailors-workflows run:phpunit
+
+      - if: ${{ github.event_name != 'workflow_call' }}
+        name: Run PHPUnit
+        run: php bin/phptailors-workflows run:phpunit

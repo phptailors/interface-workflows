@@ -28,5 +28,10 @@ jobs:
       - name: Install php-cs-fixer with composer
         run: composer bin php-cs-fixer update --no-interaction --ansi --no-progress
 
-      - name: Run php-cs-fixer
+      - if: ${{ github.event_name == 'workflow_call' }}
+        name: Run php-cs-fixer
         run: vendor/bin/phptailors-workflows run:php-cs-fixer
+
+      - if: ${{ github.event_name != 'workflow_call' }}
+        name: Run php-cs-fixer
+        run: php bin/phptailors-workflows run:php-cs-fixer
