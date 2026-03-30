@@ -55,10 +55,10 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "(mkdir -p vendor/bin && cd vendor/bin && ([ -e phptailors-workflows ] || ln -s ../../bin/phptailors-workflows))"
+            "php -r 'if (file_exists(\"vendor/bin/phptailors-workflows\")) { unlink(\"vendor/bin/phptailors-workflows\"); } symlink(\"../../bin/phptailors-workflows\", \"vendor/bin/phptailors-workflows\");'"
         ],
         "post-update-cmd": [
-            "(mkdir -p vendor/bin && cd vendor/bin && ([ -e phptailors-workflows ] || ln -s ../../bin/phptailors-workflows))"
+            "php -r 'if (file_exists(\"vendor/bin/phptailors-workflows\")) { unlink(\"vendor/bin/phptailors-workflows\"); } symlink(\"../../bin/phptailors-workflows\", \"vendor/bin/phptailors-workflows\");'"
         ]
     },
     "minimum-stability": "stable",
