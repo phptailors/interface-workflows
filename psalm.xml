@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<psalm
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    xmlns:xi="http://www.w3.org/2001/XInclude"
+    cacheDirectory=".psalm/cache"
+    resolveFromConfigFile="true"
+    errorLevel="1"
+    checkForThrowsDocblock="true"
+    checkForThrowsInGlobalScope="true"
+    ensureArrayStringOffsetsExist="true"
+    ensureArrayIntOffsetsExist="true"
+    findUnusedVariablesAndParams="true"
+    findUnusedPsalmSuppress="true"
+    findUnusedCode="true"
+>
+    <projectFiles>
+        <directory name="src/"/>
+        <directory name="tests/"/>
+        <file name="bin/phptailors-workflows"/>
+        <ignoreFiles>
+            <directory name="vendor"/>
+            <directory name="vendor-bin"/>
+        </ignoreFiles>
+    </projectFiles>
+    <plugins>
+        <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
+    </plugins>
+</psalm>

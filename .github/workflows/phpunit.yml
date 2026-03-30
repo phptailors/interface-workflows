@@ -2,7 +2,9 @@
 name: PHPUnit
 
 on:
-  workflow_call:
+  - workflow_call
+  - pull_request
+  - push
 
 jobs:
   phpunit:
@@ -46,4 +48,4 @@ jobs:
       - run: composer bin phpunit update --no-interaction --no-progress --ansi
 
       - name: Run PHPUnit
-        run: vendor-bin/phpunit/vendor/bin/phpunit
+        run: vendor/bin/phptailors-workflows run:phpunit

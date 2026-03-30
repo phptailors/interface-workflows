@@ -1,0 +1,19 @@
+vendor/
+composer.lock
+
+# phpunit (we only commit phpunit.xml.dist)
+/phpunit.xml
+
+# phpunit temporary files
+/.phpunit.result.cache
+/.phpunit.cache
+
+# php-cs-fixer temporary files
+/.php_cs.cache
+/.php-cs-fixer.cache
+
+# phpdoc (we only commit phpdoc.xml.dist)
+/phpdoc.xml
+
+# vimeo/psalm
+.psalm/cache

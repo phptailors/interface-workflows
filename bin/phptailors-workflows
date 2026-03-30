@@ -1,0 +1,70 @@
+#!/usr/bin/env php
+
+<?php
+
+/**
+ * @psalm-suppress UnresolvableInclude
+ */
+require $GLOBALS['_composer_autoload_path'] ?? __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\LogicException;
+use Symfony\Component\PropertyAccess\Exception\AccessException;
+use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
+use Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException;
+use Tailors\Console\Workflows\BackwardCompatibilityCheckCommand;
+use Tailors\Console\Workflows\ComposerRequireCheckerCommand;
+use Tailors\Console\Workflows\PhpCsFixerCommand;
+use Tailors\Console\Workflows\PhpunitCommand;
+use Tailors\Console\Workflows\PsalmCommand;
+use Tailors\Console\Workflows\RectorCommand;
+use Tailors\Console\Workflows\RunAllCommand;
+
+/**
+ * @throws \RuntimeException
+ * @throws LogicException
+ */
+function add_command(Application $application, Command $command): void {
+    /**
+     * @psalm-suppress RedundantCondition
+     */
+    if (\method_exists($application, 'addCommand')) {
+        // Symfony >= 6.x
+        $application->addCommand($command);
+    } elseif (\method_exists($application, 'add')) {
+        // Symfony 5.x
+        $application->add($command);
+    } else {
+        throw new \RuntimeException('Internal error, neither addCommand() nor add() method exists in '. Application::class);
+    }
+}
+
+/**
+ * @throws \Exception
+ * @throws \RuntimeException
+ * @throws LogicException
+ * @throws InvalidArgumentException
+ * @throws AccessException
+ * @throws UnexpectedTypeException
+ */
+function main(): int {
+
+    $application = new Application();
+
+    add_command($application, new BackwardCompatibilityCheckCommand);
+    add_command($application, new ComposerRequireCheckerCommand);
+    add_command($application, new PhpCsFixerCommand);
+    add_command($application, new PhpunitCommand);
+    add_command($application, new PsalmCommand);
+    add_command($application, new RectorCommand);
+    add_command($application, new RunAllCommand);
+
+    return $application->run();
+}
+
+try {
+    exit(main());
+} catch(\Throwable $e) {
+    exit(1);
+}

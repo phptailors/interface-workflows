@@ -2,7 +2,9 @@
 name: Composer Require Checker
 
 on:
-  workflow_call:
+  - workflow_call
+  - pull_request
+  - push
 
 jobs:
   composer_require_checker:
@@ -41,4 +43,4 @@ jobs:
       - run: composer bin composer-require-checker update --no-progress --ansi
 
       - name: Run composer-require-checker
-        run: vendor-bin/composer-require-checker/vendor/bin/composer-require-checker check
+        run: vendor/bin/phptailors-workflows run:composer-require-checker

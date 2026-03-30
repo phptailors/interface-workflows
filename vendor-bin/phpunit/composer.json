@@ -1,0 +1,6 @@
+{
+   "require-dev": {
+        "phptailors/phpunit-inheritance": "^1 || ^2 || ^3 || ^4 || ^5",
+        "phpunit/phpunit": "^9.5.10 || ^10 || ^11 || ^12 || ^13"
+   }
+}
