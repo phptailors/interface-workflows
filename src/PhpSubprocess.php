@@ -19,6 +19,9 @@ if (class_exists('Symfony\Component\Process\PhpSubprocess')) {
          * @param null|array  $env     The environment variables or null to use the same environment as the current PHP process
          * @param int         $timeout The timeout in seconds
          * @param null|array  $php     Path to the PHP binary to use with any additional arguments
+         *
+         * @throws RuntimeException
+         * @throws LogicException
          */
         public function __construct(array $command, ?string $cwd = null, ?array $env = null, int $timeout = 60, ?array $php = null)
         {
@@ -42,23 +45,20 @@ if (class_exists('Symfony\Component\Process\PhpSubprocess')) {
             parent::__construct($command, $cwd, $env, null, $timeout);
         }
 
+        /**
+         * @throws LogicException
+         */
+        #[\Override]
         public static function fromShellCommandline(string $command, ?string $cwd = null, ?array $env = null, mixed $input = null, ?float $timeout = 60): static
         {
             throw new LogicException(\sprintf('The "%s()" method cannot be called when using "%s".', __METHOD__, self::class));
         }
 
         /**
-         * @param null|(callable('err'|'out', string):void) $callback
+         * @param non-empty-list<string> $iniFiles
+         *
+         * @throws RuntimeException
          */
-        public function start(?callable $callback = null, array $env = []): void
-        {
-            if (null === $this->getCommandLine()) {
-                throw new RuntimeException('Unable to find the PHP executable.');
-            }
-
-            parent::start($callback, $env);
-        }
-
         private function writeTmpIni(array $iniFiles, string $tmpDir): string
         {
             if (false === $tmpfile = @tempnam($tmpDir, '')) {
@@ -79,6 +79,7 @@ if (class_exists('Symfony\Component\Process\PhpSubprocess')) {
                 }
                 // Check and remove directives after HOST and PATH sections
                 if (preg_match('/^\s*\[(?:PATH|HOST)\s*=/mi', $data, $matches, \PREG_OFFSET_CAPTURE)) {
+                    /** @var array{0: array{0:string, 1:int}} $matches */
                     $data = substr($data, 0, $matches[0][1]);
                 }
 
@@ -123,6 +124,9 @@ if (class_exists('Symfony\Component\Process\PhpSubprocess')) {
             return $content;
         }
 
+        /**
+         * @return non-empty-list<string>
+         */
         private function getAllIniFiles(): array
         {
             $paths = [(string) php_ini_loaded_file()];
