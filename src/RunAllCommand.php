@@ -51,7 +51,7 @@ final class RunAllCommand extends Command
         $status[] = $runner->runPhpScript($config->phpunitPath, $config->phpunitOptions);
         $status[] = $runner->runPhpScript($config->psalmPath, $config->psalmOptions);
 
-        if (\array_find($status, fn (int $value): bool => 0 != $value)) {
+        if (count(\array_filter($status, fn (int $value): bool => 0 != $value)) > 0) {
             return Command::FAILURE;
         }
 

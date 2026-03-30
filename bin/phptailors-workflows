@@ -8,7 +8,6 @@
 require $GLOBALS['_composer_autoload_path'] ?? __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
@@ -22,25 +21,6 @@ use Tailors\Console\Workflows\RectorCommand;
 use Tailors\Console\Workflows\RunAllCommand;
 
 /**
- * @throws \RuntimeException
- * @throws LogicException
- */
-function add_command(Application $application, Command $command): void {
-    /**
-     * @psalm-suppress RedundantCondition
-     */
-    if (\method_exists($application, 'addCommand')) {
-        // Symfony >= 6.x
-        $application->addCommand($command);
-    } elseif (\method_exists($application, 'add')) {
-        // Symfony 5.x
-        $application->add($command);
-    } else {
-        throw new \RuntimeException('Internal error, neither addCommand() nor add() method exists in '. Application::class);
-    }
-}
-
-/**
  * @throws \Exception
  * @throws \RuntimeException
  * @throws LogicException
@@ -49,16 +29,17 @@ function add_command(Application $application, Command $command): void {
  * @throws UnexpectedTypeException
  */
 function main(): int {
-
     $application = new Application();
 
-    add_command($application, new BackwardCompatibilityCheckCommand);
-    add_command($application, new ComposerRequireCheckerCommand);
-    add_command($application, new PhpCsFixerCommand);
-    add_command($application, new PhpunitCommand);
-    add_command($application, new PsalmCommand);
-    add_command($application, new RectorCommand);
-    add_command($application, new RunAllCommand);
+    $application->addCommands([
+        new BackwardCompatibilityCheckCommand,
+        new ComposerRequireCheckerCommand,
+        new PhpCsFixerCommand,
+        new PhpunitCommand,
+        new PsalmCommand,
+        new RectorCommand,
+        new RunAllCommand,
+    ]);
 
     return $application->run();
 }

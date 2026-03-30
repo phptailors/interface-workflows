@@ -1,5 +1,6 @@
 {
   "symbol-whitelist" : [
+      "Symfony\\Component\\Process\\PhpSubprocess"
   ],
   "php-core-extensions" : [
       "Core",
