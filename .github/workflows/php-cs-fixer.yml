@@ -23,10 +23,10 @@ jobs:
           coverage: none
 
       - name: Update dependencies with composer
-        run: composer update --no-interaction --ansi --no-progress
+        run: composer install --no-interaction --ansi --no-progress
 
       - name: Install php-cs-fixer with composer
-        run: composer bin php-cs-fixer update --no-interaction --ansi --no-progress
+        run: composer bin php-cs-fixer install --no-interaction --ansi --no-progress
 
       - if: ${{ github.event_name == 'workflow_call' }}
         name: Run php-cs-fixer

@@ -25,10 +25,10 @@ jobs:
           coverage: none
 
       - name: Update dependencies with composer
-        run: composer update --no-interaction --ansi --no-progress
+        run: composer install --no-interaction --ansi --no-progress
 
       - name: Install backward-compatibility-check with composer
-        run: composer bin backward-compatibility-check update --no-interaction --ansi --no-progress
+        run: composer bin backward-compatibility-check install --no-interaction --ansi --no-progress
 
 
       - if: ${{ github.event_name == 'workflow_call' }}

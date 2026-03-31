@@ -34,10 +34,10 @@ jobs:
       - run: composer --version
 
       - name: Update dependencies with composer
-        run: composer update --no-interaction --ansi --no-progress
+        run: composer install --no-interaction --ansi --no-progress
 
       - name: Install psalm with composer
-        run: composer bin psalm update --no-interaction --ansi --no-progress
+        run: composer bin psalm install --no-interaction --ansi --no-progress
 
       - if: ${{ github.event_name == 'workflow_call' }}
         name: Run vimeo/psalm

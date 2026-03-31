@@ -1,0 +1,219 @@
+---
+backward_compatibility_check:
+  script: roave-backwards-compatibility-check
+  command: roave-backwards-compatibility-check:assert-backwards-compatible
+  options:
+    no_interactions: true               # Do not ask any interactive question
+    ansi: true                          # Force (or disable --no-ansi) ANSI output
+    from: null                          # Git reference for the base version of the library, which is considered "stable"
+    to: null                            # Git reference for the new version of the library, which is verified against "from" for BC breaks [default: "HEAD"]
+    install_development_dependencies: null # Whether to also install "require-dev" dependencies too
+    format: null                        # Currently supports "console", "markdown" or "github-actions" [default: ["console"]] (multiple values allowed)
+  arguments: null                       # Positional arguments (array)
+
+composer_require_checker:
+  script: composer-require-checker
+  command: check
+  options:
+    no_interactions: true               # Do not ask any interactive question
+    ansi: true                          # Force (or disable --no-ansi) ANSI output
+    ignore_parse_errors: null           # This will cause ComposerRequireChecker to ignore errors when files cannot be parsed, otherwise errors will be thrown
+    config_file: null                   # The config file to configure the checking options [default: "composer-require-checker.json"]
+  arguments: null                       # Positional arguments (array)
+
+php_cs_fixer:
+  script: php-cs-fixer
+  command: check
+  options:
+    no_interactions: true               # Do not ask any interactive question
+    ansi: true                          # Force (or disable --no-ansi) ANSI output
+    path_mode: null                     # Specify path mode (can be `override` or `intersection`). [default: "override"]
+    allow_risky: null                   # Are risky fixers allowed (can be `yes` or `no`).
+    config: null                        # The path to a config file.
+    rules: null                         # List of rules that should be run against configured paths.
+    using_cache: null                   # Should cache be used (can be `yes` or `no`).
+    allow_unsupported-php-version: null # Should the command refuse to run on unsupported PHP version (can be `yes` or `no`).
+    cache_file: null                    # The path to the cache file.
+    diff: null                          # Prints diff for each file.
+    format: null                        # To output results in other formats (can be `@auto`, `@auto,txt`, `checkstyle`, `gitlab`, `json`, `junit`, `txt` or `xml`).
+    stop_on-violation: null             # Stop execution on first violation.
+    show_progress: null                 # Type of progress indicator (can be `bar`, `dots` or `none`).
+    sequential: null                    # Enforce sequential analysis.
+  arguments: null                       # Positional arguments (array)
+
+phpunit:
+  script: phpunit
+  options: null
+    # Code Coverage Options:
+    coverage_clover: null               # Generate code coverage report in Clover XML format
+    coverage_cobertura: null            # Generate code coverage report in Cobertura XML format
+    coverage_crap4j: null               # Generate code coverage report in Crap4J XML format
+    coverage_html: null                 # Generate code coverage report in HTML format
+    coverage_php: null                  # Export PHP_CodeCoverage object to file
+    coverage_text: null                 # Generate code coverage report in text format [default: standard output]
+    coverage_xml: null                  # Generate code coverage report in PHPUnit XML format
+    coverage_cache: null                # Cache static analysis results
+    warm_coverage_cache: null           # Warm static analysis cache
+    coverage_filter: null               # Include <dir> in code coverage analysis
+    path_coverage: null                 # Perform path coverage analysis
+    disable_coverage_ignore: null       # Disable annotations for ignoring code coverage
+    no_coverage: null                   # Ignore code coverage configuration
+
+    # Logging Options:
+    log_junit: null                     # Log test execution in JUnit XML format to file
+    log_teamcity: null                  # Log test execution in TeamCity format to file
+    testdox_html: null                  # Write agile documentation in HTML format to file
+    testdox_text: null                  # Write agile documentation in Text format to file
+    testdox_xml: null                   # Write agile documentation in XML format to file
+    reverse_list: null                  # Print defects in reverse order
+    no_logging: null                    # Ignore logging configuration
+
+    # Test Selection Options:
+    list_suites: null                   # List available test suites
+    testsuite: null                     # Filter which testsuite to run
+    list_groups: null                   # List available test groups
+    group: null                         # Only runs tests from the specified group(s)
+    exclude_group: null                 # Exclude tests from the specified group(s)
+    covers: null                        # Only runs tests annotated with "@covers <name>"
+    uses: null                          # Only runs tests annotated with "@uses <name>"
+    list_tests: null                    # List available tests
+    list_tests_xml: null                # List available tests in XML format
+    filter: null                        # Filter which tests to run
+    test_suffix: null                   # Only search for test in files with specified suffix(es). Default: Test.php,.phpt
+
+    # Test Execution Options:
+    dont_report_useless_tests: null     # Do not report tests that do not test anything
+    strict_coverage: null               # Be strict about @covers annotation usage
+    strict_global_state: null           # Be strict about changes to global state
+    disallow_test_output: null          # Be strict about output during tests
+    disallow_resource_usage: null       # Be strict about resource usage during small tests
+    enforce_time_limit: null            # Enforce time limit based on test size
+    default_time_limit: null            # Timeout in seconds for tests without @small, @medium or @large
+    disallow_todo_tests: null           # Disallow @todo_annotated tests
+
+    process-isolation: null             # Run each test in a separate PHP process
+    globals-backup: null                # Backup and restore $GLOBALS for each test
+    static-backup: null                 # Backup and restore static attributes for each test
+
+    colors: null                        # Use colors in output ("never", "auto" or "always")
+    columns: null                       # Number of columns to use for progress output
+    columns: null                       # Use maximum number of columns for progress output
+    stderr: null                        # Write to STDERR instead of STDOUT
+    stop_on_defect: null                # Stop execution upon first not_passed test
+    stop_on_error: null                 # Stop execution upon first error
+    stop_on_failure: null               # Stop execution upon first error or failure
+    stop_on_warning: null               # Stop execution upon first warning
+    stop_on_risky: null                 # Stop execution upon first risky test
+    stop_on_skipped: null               # Stop execution upon first skipped test
+    stop_on_incomplete: null            # Stop execution upon first incomplete test
+    fail_on_incomplete: null            # Treat incomplete tests as failures
+    fail_on_risky: null                 # Treat risky tests as failures
+    fail_on_skipped: null               # Treat skipped tests as failures
+    fail_on_warning: null               # Treat tests with warnings as failures
+    verbose: null                       # Output more verbose information
+    debug: null                         # Display debugging information
+
+    repeat: null                        # Runs the test(s) repeatedly
+    teamcity: null                      # Report test execution progress in TeamCity format
+    testdox: null                       # Report test execution progress in TestDox format
+    testdox_group: null                 # Only include tests from the specified group(s)
+    testdox_exclude_group: null         # Exclude tests from the specified group(s)
+    no_interaction: null                # Disable TestDox progress animation
+    printer: null                       # TestListener implementation to use
+
+    order_by: null                      # Run tests in order: default|defects|duration|no_depends|random|reverse|size
+    random_order_seed: null             # Use a specific random seed <N> for random order
+    cache_result: null                  # Write test results to cache file
+    do_not_cache_result: null           # Do not write test results to cache file
+
+    # Configuration Options:
+    prepend: null                       # A PHP script that is included as early as possible
+    bootstrap: null                     # A PHP script that is included before the tests run
+    configuration: null                 # Read configuration from XML file
+    no_configuration: null              # Ignore default configuration file (phpunit.xml)
+    extensions: null                    # A comma separated list of PHPUnit extensions to load
+    no_extensions: null                 # Do not load PHPUnit extensions
+    include_path: null                  # Prepend PHP's include_path with given path(s)
+    ini_set: null                       # -d <key[=value]> Sets a php.ini value
+    cache_result_file: null             # Specify result cache path and filename
+    generate_configuration: null        # Generate configuration file with suggested settings
+    migrate_configuration: null         # Migrate configuration file to current format
+
+  arguments: null                       # Positional arguments (array)
+
+psalm:
+  script: psalm
+  options: null
+    # Basic configuration
+    config: null                        # Path to a psalm.xml configuration file. Run psalm init: null # to create one.
+    use_ini_defaults: null              # Use PHP_provided ini defaults for memory and error display
+    memory_limit: null                  # Use a specific memory limit. Cannot be combined with use_ini_defaults: null #
+    disable_extension: null             # Used to disable certain extensions while Psalm is running.
+    threads: null                       # If greater than one, Psalm will run analysis on multiple threads, speeding things up.
+    no_diff: null                       # Turns off Psalm’s diff mode, checks all files regardless of whether they’ve changed.
+    php_version: null                   # Explicitly set PHP version to analyse code against.
+    error_level: null                   # Set the error reporting level
+
+    # Surfacing issues
+    show_info: null                     # Show non_exception parser findings (defaults to false).
+    show_snippet: null                  # Show code snippets with errors. Options are 'true' or 'false'
+    find_dead_code: null                #
+    find_unused_code: null              # Look for unused code. Options are 'auto' or 'always'. If no value is specified, default is 'auto'
+    find_unused_psalm_suppress: null    # Finds all @psalm_suppress annotations that aren’t used
+    find_references_to: null            # Searches the codebase for references to the given fully_qualified class or method, where method is in the format class::methodName
+    no_suggestions: null                # Hide suggestions
+    taint_analysis: null                # Run Psalm in taint analysis mode – see https://psalm.dev/docs/security_analysis for more info
+    dump_taint_graph: null              # Output the taint graph using the DOT language – requires taint_analysis: null #
+
+    # Issue baselines
+    set_baseline: null                  # Save all current error level issues to a file, to mark them as info in subsequent runs
+                                        # Add include_php_versions to also include a list of PHP extension versions
+    use_baseline: null                  # Allows you to use a baseline other than the default baseline provided in your config
+    ignore_baseline: null               # Ignore the error baseline
+    update_baseline: null               # Update the baseline by removing fixed issues. This will not add new issues to the baseline
+                                        # Add include_php_versions to also include a list of PHP extension versions
+
+    # Plugins:
+    plugin: null                        # Executes a plugin, an alternative to using the Psalm config
+
+    # Output:
+    monochrome: null                    # Enable monochrome output
+    output_format: null                 # Changes the output format.
+                                        # Available formats:
+                                        # by_issue_level, checkstyle, codeclimate, compact, console, count, emacs,
+                                        # github, json, json_summary, junit, phpstorm, pylint, sarif, sonarqube,
+                                        # text, xml
+    no_progress: null                   # Disable the progress indicator
+    long_progress: null                 # Use a progress indicator suitable for Continuous Integration logs
+    stats: null                         # Shows a breakdown of Psalm’s ability to infer types in the codebase
+
+    # Reports:
+    report: null                        # The path where to output report file. The output format is based on the file extension.
+                                        # (Currently supported formats: ".console", ".emacs", ".json", ".pylint", ".sarif", ".sarif.json", ".txt",
+                                        # ".xml", "checkstyle.xml", "codeclimate.json", "count.txt", "junit.xml",
+                                        # "sonarqube.json", "summary.json")
+
+    report_show_info: null              #[=BOOLEAN] Whether the report should include non_errors in its output (defaults to true)
+
+    # Caching:
+    clear_cache: null                   # Clears all cache files that Psalm uses for this specific project
+    clear_global_cache: null            # Clears all cache files that Psalm uses for all projects
+    no_cache: null                      # Runs Psalm without using cache
+    no_reflection_cache: null           # Runs Psalm without using cached representations of unchanged classes and files.
+                                        # Useful if you want the afterClassLikeVisit plugin hook to run every time you visit a file.
+    no_file_cache: null                 # Runs Psalm without using caching every single file for later diffing.
+                                        # This reduces the space Psalm uses on disk and file I/O.
+
+    # Miscellaneous:
+    debug: null                         # Debug information
+    debug_by_line: null                 # Debug information on a line_by_line level
+    debug_emitted_issues: null          # Print a php backtrace to stderr when emitting issues.
+    root: null                          # If running Psalm globally you’ll need to specify a project root. Defaults to cwd
+    generate_json_map: null             # Generate a map of node references and types in JSON format, saved to the given path.
+    generate_stubs: null                # Generate stubs for the project and dump the file in the given path
+    shepherd: null                      # Send analysis statistics to Shepherd (shepherd.dev) or your server.
+    alter: null                         # Run Psalter
+    language_server: null               # Run Psalm Language Server
+
+  arguments: null                       # Positional arguments (array)
+

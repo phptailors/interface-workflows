@@ -17,6 +17,7 @@
         "symfony/console": ">= 5.4",
         "symfony/process": ">= 5.4",
         "symfony/property-access": ">= 5.4",
+        "symfony/config": ">=5.4",
         "composer/composer": "^2.0"
     },
     "require-dev": {
