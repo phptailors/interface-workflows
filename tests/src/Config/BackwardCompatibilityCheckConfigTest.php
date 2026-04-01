@@ -66,13 +66,13 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
 
 
         yield [
-            'inputs' => [['script' => 'foo']],
-            'expect' => \array_merge($defaults, ['script' => 'foo'])
+            'inputs' => [['script' => 'FOO']],
+            'expect' => \array_merge($defaults, ['script' => 'FOO'])
         ];
 
         yield [
-            'inputs' => [['script' => 'foo'], ['script' => 'bar']],
-            'expect' => \array_merge($defaults, ['script' => 'bar'])
+            'inputs' => [['script' => 'FOO'], ['script' => 'BAR']],
+            'expect' => \array_merge($defaults, ['script' => 'BAR'])
         ];
 
         yield [
@@ -110,8 +110,16 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
             'expect' => \array_replace_recursive($defaults, ['options' => ['ansi' => false]]),
         ];
 
-//              ->booleanNode('no_interactions')->defaultTrue()->end() // true
-//              ->booleanNode('ansi')->defaultTrue()->end() // true
+        yield [
+            'inputs' => [['options' => ['from' => 'FOO']]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['from' => 'FOO']]),
+        ];
+
+        yield [
+            'inputs' => [['options' => ['to' => 'FOO']]],
+            'expect' => \array_replace_recursive($defaults, ['options' => ['to' => 'FOO']]),
+        ];
+
 //              ->stringNode('from')->end() // null
 //              ->stringNode('to')->end() // null
 //              ->booleanNode('install_development_dependencies')->end() // null
@@ -129,8 +137,8 @@ final class BackwardCompatibilityCheckConfigTest extends TestCase
         ];
 
         yield [
-            'inputs' => [['command' => 'foo']],
-            'expect' => '/"foo" is not allowed for path "backward_compatibility_check.command"/'
+            'inputs' => [['command' => 'FOO']],
+            'expect' => '/"FOO" is not allowed for path "backward_compatibility_check.command"/'
         ];
     }
 }

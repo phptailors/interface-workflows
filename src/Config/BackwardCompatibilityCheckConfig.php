@@ -2,46 +2,12 @@
 
 namespace Tailors\Console\Workflows\Config;
 
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 
-final class BackwardCompatibilityCheckConfig implements ConfigurationInterface
+final class BackwardCompatibilityCheckConfig extends AbstractScriptConfig
 {
-    public function getConfigTreeBuilder(): TreeBuilder
-    {
-        $treeBuilder = new TreeBuilder('backward_compatibility_check');
-
-        $rootNode = $treeBuilder->getRootNode();
-
-        $this->defineConfigTree($rootNode);
-
-        return $treeBuilder;
-    }
-
-    /**
-     * @param ArrayNodeDefinition $rootNode
-     */
-    private function defineConfigTree(ArrayNodeDefinition $rootNode): void
-    {
-        $rootNode
-            ->children()
-                ->stringNode('script')
-                    ->cannotBeEmpty()
-                    ->defaultValue($this->getDefaultScriptName())
-                ->end()
-                ->enumNode('command')
-                    ->values($this->getSupportedScriptCommands())
-                ->end()
-                ->append($this->getOptionsNode())
-                ->arrayNode('arguments', 'argument')
-                    ->stringPrototype()->end()
-                ->end()
-            ->end()
-        ;
-    }
-
-    private function getDefaultScriptName(): string
+    protected function getDefaultScriptName(): string
     {
         return 'roave-backward-compatibility-check';
     }
@@ -49,14 +15,14 @@ final class BackwardCompatibilityCheckConfig implements ConfigurationInterface
     /**
      * @return list<string>
      */
-    private function getSupportedScriptCommands(): array
+    protected function getSupportedScriptCommands(): array
     {
         return [
             'roave-backwards-compatibility-check:assert-backwards-compatible'
         ];
     }
 
-    private function getOptionsNode(): ArrayNodeDefinition
+    protected function getOptionsNode(): ArrayNodeDefinition
     {
         $treeBuilder = new TreeBuilder('options');
 
